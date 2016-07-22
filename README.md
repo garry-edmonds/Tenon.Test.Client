@@ -11,11 +11,11 @@ Project will be available as a nuget package at http://nuget.org.
 
 1 - Create instance using URL:
 
-- `TenonIO tenon = new TenonIO(<APIKEY>, new Uri(<URL-TO-TEST>));
+- TenonIO tenon = new TenonIO(<APIKEY>, new Uri(<URL-TO-TEST>));
 
 2 - Create instance using Page Source:
 
-- `TenonIO tenon = new TenonIO(<APIKEY>, <STRING-OF-HTML-SOURCE>);
+- TenonIO tenon = new TenonIO(<APIKEY>, <STRING-OF-HTML-SOURCE>);
 
 ##Running the test:
 There are two choices for the output that is generated from the accessibility test.
