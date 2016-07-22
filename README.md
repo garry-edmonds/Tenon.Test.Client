@@ -5,7 +5,7 @@ You will need to register an account at the following URL to use it <a href="htt
 once registered you can test the website by sending the URL of the page or the html page source.
 
 ## How to use Tenon.Test.Client.
-Project will be available as a nuget package at http://nuget.org.
+Project will be available as a nuget package at <a href="https://www.nuget.org/packages/Tenon.Test.Client">Nuget Page</a>.
 
 ##Create an instance of the test class:
 
