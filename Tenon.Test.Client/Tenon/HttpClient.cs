@@ -15,6 +15,7 @@ namespace Tenon.Test.Client
 
         internal static void PostRequest(HttpWebRequest request, byte[] postData)
         {
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.Headers["Cache-Control"] = "no-cache";
