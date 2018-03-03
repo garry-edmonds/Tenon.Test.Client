@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Tenon.Test.Client</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>Garry Edmonds</authors>
     <owners>Garry Edmonds</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,7 @@
     <description>Using the Tenon.IO api, gives the ability to run accessibility tests for both URL's and source code.</description>
     <tags>Tenon.IO WCAG Accessibility Testing Test Automation plugin addin</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="Newtonsoft.Json" version="11.0.1" />
     </dependencies>
   </metadata>
   <files>

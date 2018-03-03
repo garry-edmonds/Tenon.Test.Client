@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Tenon.Test.Client.Exceptions;
 using static Tenon.Test.Client.Settings.Parameters;
 
 namespace Tenon.Test.Client.Settings
 {
+    /// <summary>
+    /// Optional parameters that can be added to the Tenon.io call.
+    /// </summary>
     public abstract class OptionalParameters
     {
-        internal abstract string _postData { get; set; }
+        internal abstract List<KeyValuePair<string, string>> Content { get; set; }
 
         /// <summary>
         /// Allows you to change the certainty value of the test run.
@@ -15,7 +19,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="curtainty">Enums of available values.</param>
         public void SetCertainty(Certainty curtainty)
         {
-            _postData += ("&certainty=" + (int)curtainty);
+            Content.Add(new KeyValuePair<string, string>("certainty", $"{(int)curtainty:D}"));
         }
 
         /// <summary>
@@ -28,7 +32,7 @@ namespace Tenon.Test.Client.Settings
             {
                 throw new InvalidStringLengthException("Project ID can only be upto 255 characters long");
             }
-            _postData += ("&projectID=" + projectId);
+            Content.Add(new KeyValuePair<string, string>("projectID", projectId));
         }
 
         /// <summary>
@@ -41,14 +45,13 @@ namespace Tenon.Test.Client.Settings
             {
                 throw new InvalidStringLengthException("Doc ID can only be between 16 amd 255 characters long");
             }
-            
+
             var regex = @"^[a-zA-Z0-9_\-]+$";
             if (!Regex.IsMatch(docID, regex))
             {
                 throw new InvalidValueException("Doc ID can only contain a-z A-Z 0-9 dash(-) and underscore(_) values.");
             }
-
-            _postData += ("&docID=" + docID);
+            Content.Add(new KeyValuePair<string, string>("docID", docID));
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="priority">Enum of available values that can be set.</param>
         public void SetPriority(Priority priority)
         {
-            _postData += ("&priority=" + (int)priority);
+            Content.Add(new KeyValuePair<string, string>("priority", $"{(int)priority:D}"));
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="level">Enum of available values that can be set.</param>
         public void SetLevel(Level level)
         {
-            _postData += ("&level=" + level);
+            Content.Add(new KeyValuePair<string, string>("level", level.ToString()));
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="milliseconds">Time in milliseconds to wait.</param>
         public void SetWaitFor(int milliseconds)
         {
-            _postData += ("&waitFor=" + milliseconds);
+            Content.Add(new KeyValuePair<string, string>("waitFor", milliseconds.ToString()));
         }
 
         /// <summary>
@@ -84,7 +87,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="enable">True or False value.</param>
         public void SetFragment(bool enable)
         {
-            _postData += ("&fragment=" + Convert.ToInt32(enable));
+            Content.Add(new KeyValuePair<string, string>("fragment", Convert.ToInt32(enable).ToString()));
         }
 
         /// <summary>
@@ -93,7 +96,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="importance">Enum of avaiable values for importance.</param>
         public void SetImportance(Importance importance)
         {
-            _postData += ("&importance=" + (int)importance);
+            Content.Add(new KeyValuePair<string, string>("importance", $"{(int)importance:D}"));
         }
 
         /// <summary>
@@ -102,7 +105,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="enable">True of False value.</param>
         public void SetRef(bool enable)
         {
-            _postData += ("&ref=" + Convert.ToInt32(enable));
+            Content.Add(new KeyValuePair<string, string>("ref", Convert.ToInt32(enable).ToString()));
         }
 
         /// <summary>
@@ -111,7 +114,7 @@ namespace Tenon.Test.Client.Settings
         /// <param name="enable"></param>
         public void SetStore(bool enable)
         {
-            _postData += ("&store=" + Convert.ToInt32(enable));
+            Content.Add(new KeyValuePair<string, string>("store", Convert.ToInt32(enable).ToString()));
         }
 
         /// <summary>
@@ -124,7 +127,7 @@ namespace Tenon.Test.Client.Settings
             {
                 throw new InvalidStringLengthException("uaString can only be upto 255 characters long");
             }
-            _postData += ("&projectID=" + uaString);
+            Content.Add(new KeyValuePair<string, string>("uaString", uaString));
         }
 
         /// <summary>
@@ -137,7 +140,7 @@ namespace Tenon.Test.Client.Settings
             {
                 throw new InvalidNumberValueException("ViewPortHeight can only be between 0 and 9999");
             }
-            _postData += ("&viewPortHeight=" + height);
+            Content.Add(new KeyValuePair<string, string>("viewPortHeight", height.ToString()));
         }
 
         /// <summary>
@@ -150,7 +153,7 @@ namespace Tenon.Test.Client.Settings
             {
                 throw new InvalidNumberValueException("ViewPortWidth can only be between 0 and 9999");
             }
-            _postData += ("&viewPortWidth=" + width);
+            Content.Add(new KeyValuePair<string, string>("viewPortWidth", width.ToString()));
         }
 
     }

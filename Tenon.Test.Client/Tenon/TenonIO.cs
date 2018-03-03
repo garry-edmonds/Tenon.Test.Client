@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using Tenon.Test.Client.DataObjects;
 using Tenon.Test.Client.Settings;
 
@@ -12,8 +12,9 @@ namespace Tenon.Test.Client
     /// </summary>
     public class TenonIO : OptionalParameters
     {
-        internal override string _postData { get; set; }
-        
+        private readonly Uri _tenonIoUrl = new Uri("https://tenon.io/api/");
+        internal sealed override List<KeyValuePair<string, string>> Content { get; set; }
+
         /// <summary>
         /// Run Tenon.IO Accessibility Tool, passing in a URL that is to be tested.
         /// </summary>
@@ -21,8 +22,11 @@ namespace Tenon.Test.Client
         /// <param name="urlToTest">The URL to be tested.</param>
         public TenonIO(string apiKey, Uri urlToTest)
         {
-            _postData = ("url=" + urlToTest.ToString());
-            _postData += ("&key=" + apiKey);
+            Content = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("key", apiKey),
+                new KeyValuePair<string, string>("url", urlToTest.ToString())
+            };
         }
         
         /// <summary>
@@ -32,20 +36,21 @@ namespace Tenon.Test.Client
         /// <param name="pageSource">The HTML of the page to be tested.</param>
         public TenonIO(string apiKey, string pageSource)
         {
-            _postData = ("src=" + pageSource);
-            _postData += ("&key=" + apiKey);
+            Content = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("key", apiKey),
+                new KeyValuePair<string, string>("src", pageSource)
+            };
         }
-        
+
         /// <summary>
         /// Run the accessibility automation test, return json string.
         /// </summary>
         /// <returns>Json String value of the Api response from tenon.io.</returns>
         public string ExecuteTestJson()
         {
-            byte[] data = HttpClient.InitialisePostData(_postData);
-            var request = (HttpWebRequest)WebRequest.Create("https://tenon.io/api/");
-            HttpClient.PostRequest(request, data);
-            return HttpClient.GetResponse(request);
+            var client = new TenonClient(_tenonIoUrl);
+            return client.Post(Content);
         }
 
         /// <summary>
@@ -54,10 +59,7 @@ namespace Tenon.Test.Client
         /// <returns>Object structure of the Api response from tenon.io</returns>
         public ApiResponse ExecuteTest()
         {
-            byte[] data = HttpClient.InitialisePostData(_postData);
-            var request = (HttpWebRequest)WebRequest.Create("https://tenon.io/api/");
-            HttpClient.PostRequest(request, data);
-            return JsonConvert.DeserializeObject<ApiResponse>(HttpClient.GetResponse(request));
+            return JsonConvert.DeserializeObject<ApiResponse>(ExecuteTestJson());
         }
         
     }
